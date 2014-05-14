@@ -378,10 +378,6 @@ bool ExtendedCalendar::deleteEvent( const Event::Ptr &event )
     d->mEventsForDate.remove( event->dtStart().toTimeSpec( timeSpec() ).date().toString(), event );
 
     // Delete from attendee events.
-    Person::Ptr organizer = event->organizer();
-    if ( !organizer->isEmpty() ) {
-      d->mAttendeeIncidences.remove( organizer->email(), event );
-    }
     const Attendee::List &list = event->attendees();
     Attendee::List::ConstIterator it;
     for ( it = list.begin(); it != list.end(); ++it ) {
@@ -521,10 +517,6 @@ void ExtendedCalendar::Private::insertTodo( const Todo::Ptr &todo, const KDateTi
   }
 
   // Insert into attendee todos.
-  Person::Ptr organizer = todo->organizer();
-  if ( organizer->isEmpty() ) {
-    mAttendeeIncidences.insert( organizer->email(), todo );
-  }
   const Attendee::List &list = todo->attendees();
   Attendee::List::ConstIterator it;
   for ( it = list.begin(); it != list.end(); ++it ) {
@@ -558,10 +550,6 @@ bool ExtendedCalendar::deleteTodo( const Todo::Ptr &todo )
     }
 
     // Delete from attendee todos.
-    Person::Ptr organizer = todo->organizer();
-    if ( !organizer->isEmpty() ) {
-      d->mAttendeeIncidences.remove( organizer->email(), todo );
-    }
     const Attendee::List &list = todo->attendees();
     Attendee::List::ConstIterator it;
     for ( it = list.begin(); it != list.end(); ++it ) {
@@ -821,10 +809,6 @@ void ExtendedCalendar::Private::insertEvent( const Event::Ptr &event,
   }
 
   // Insert into attendee events.
-  Person ::Ptr organizer = event->organizer();
-  if ( !organizer->isEmpty() ) {
-    mAttendeeIncidences.insert( organizer->email(), event );
-  }
   const Attendee::List &list = event->attendees();
   Attendee::List::ConstIterator it;
   for ( it = list.begin(); it != list.end(); ++it ) {
@@ -846,10 +830,6 @@ void ExtendedCalendar::incidenceUpdate( const QString &uid, const KDateTime &rec
   }
 
   // Remove attendee incidence.
-  Person::Ptr organizer = incidence->organizer();
-  if ( !organizer->isEmpty() ) {
-    d->mAttendeeIncidences.remove( organizer->email(), incidence );
-  }
   const Attendee::List &list = incidence->attendees();
   Attendee::List::ConstIterator it;
   for ( it = list.begin(); it != list.end(); ++it ) {
@@ -900,10 +880,6 @@ void ExtendedCalendar::incidenceUpdated( const QString &uid, const KDateTime &re
   // need to verify with ical documentation.
 
   // Insert into attendee incidences.
-  Person::Ptr organizer = incidence->organizer();
-  if ( !organizer->isEmpty() ) {
-    d->mAttendeeIncidences.insert( organizer->email(), incidence );
-  }
   const Attendee::List &list = incidence->attendees();
   Attendee::List::ConstIterator it;
   for ( it = list.begin(); it != list.end(); ++it ) {
@@ -1352,10 +1328,6 @@ void ExtendedCalendar::Private::insertJournal( const Journal::Ptr &journal,
   mJournalsForDate.insert( journal->dtStart().toTimeSpec(timeSpec).date().toString(), journal );
 
   // Insert into attendee journals.
-  Person::Ptr organizer = journal->organizer();
-  if ( !organizer->isEmpty() ) {
-    mAttendeeIncidences.insert( organizer->email(), journal );
-  }
   const Attendee::List &list = journal->attendees();
   Attendee::List::ConstIterator it;
   for ( it = list.begin(); it != list.end(); ++it ) {
@@ -1376,10 +1348,6 @@ bool ExtendedCalendar::deleteJournal( const Journal::Ptr &journal )
       journal->dtStart().toTimeSpec( timeSpec() ).date().toString(), journal );
 
     // Delete from attendee journals.
-    Person::Ptr organizer = journal->organizer();
-    if ( !organizer->isEmpty() ) {
-      d->mAttendeeIncidences.remove( organizer->email(), journal );
-    }
     const Attendee::List &list = journal->attendees();
     Attendee::List::ConstIterator it;
     for ( it = list.begin(); it != list.end(); ++it ) {
